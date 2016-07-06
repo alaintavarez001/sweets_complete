@@ -1,6 +1,6 @@
 var app = angular.module('sweetsComplete', [
   'ngRoute'
-  
+
 ]);
 
 /**
@@ -8,7 +8,7 @@ var app = angular.module('sweetsComplete', [
 */
 
 app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider)  {
-    $locationProvider.html5Mode(true); 
+    $locationProvider.html5Mode(true);
   $routeProvider
   // Home
   .when("/", {templateUrl: "partials/home.html", controller: "PageCtrl"})
@@ -16,21 +16,18 @@ app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $lo
   .when("/about", {templateUrl: "partials/about.html", controller: "PageCtrl"})
   .when("/contact", {templateUrl: "partials/contact.html", controller: "PageCtrl"})
   .when("/products", {templateUrl: "partials/products.html", controller: "PageCtrl"})
-  .when("/specials", {templateUrl: "partials/specials.html", controller: "PageCtrl"});
-  
+  .when("/specials", {templateUrl: "partials/specials.html", controller: "PageCtrl"})
 }]);
 
 app.controller('BlogCtrl', function (/* $scope, $location, $http */) {
   console.log("Blog Controller reporting for duty.");
-  
-});
-
-app.controller('PageCtrl', function (/* $scope, $location, $http */ ) {
-  console.log("Page Controller reporting for duty.");
-
-  //Activate the Carousel
-  $('.carousel').carousel({
-    interval: 5000
-  });
 
 });
+
+app.controller('PageCtrl', ['$scope','$http',function (scope, http) {
+  http.get('specials.json').success(function(data) {
+          scope.specials = data;
+        });
+
+
+}]);
